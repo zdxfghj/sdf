@@ -1,52 +1,47 @@
-import { Component } from "react";
 import "./employer-list-item.css"
 
-class EmployersListItem extends Component{
-    constructor(props){
-        super(props);
-        this.state ={
-            increase: false,
-            promotion: false
-        }
-    }
+const EmployersListItem = (props) => {
+//     constructor(props){
+//         super(props);
+//         this.state ={
+//             increase: false,
+//             promotion: false
+//         }
+//     }
 
-    onIncrease = () =>{ //стрелочная функция
-         this.setState(({increase}) =>({
-            increase: !increase
-         }))
+//     onIncrease = () =>{ //стрелочная функция
+//          this.setState(({increase}) =>({
+//             increase: !increase
+//          }))
 
-    }
+//     }
 
-    onPromotion = () =>{ //стрелочная функция
-        this.setState(({promotion}) =>({
-            promotion: !promotion
-        }))
+//     onPromotion = () =>{ //стрелочная функция
+//         this.setState(({promotion}) =>({
+//             promotion: !promotion
+//         }))
 
-   }
+//    }
    
-    
-    
-    render(){
+        const {name, salary,onDelete,onToggleIncrease,onToggleRise,rise,increase} = props;
         
-        const {name, salary,onDelete} = this.props;
-        const {increase,promotion} = this.state;
 
             let classNames = "list-group-item d-flex justify-content-between"
             if(increase){
                 classNames += " increase"
             }
-            if(promotion){
+            if(rise){
                 classNames += " like"
             }
 
         return(
             <li className={classNames}>
-            <span className="list-group-item-label" onClick={this.onPromotion}>{name}</span>
+            <span className="list-group-item-label" onClick={onToggleRise}>{name}</span>
             <input type="text" className="list-group-item-input" defaultValue={salary+"$"}/>
             <div className='d-flex justify-content-center align-items-center'>
                 <button type="button"
                     className="btn-cookie btn-sm "
-                    onClick={this.onIncrease}>
+                    onClick={onToggleIncrease}>
                     <i className="fas fa-cookie"></i>
                 </button>
 
@@ -59,7 +54,6 @@ class EmployersListItem extends Component{
             </div>
             </li>
         )
-    }
 }
 
 export default EmployersListItem
