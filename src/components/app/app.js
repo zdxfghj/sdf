@@ -18,7 +18,7 @@ class App extends Component{
             {name: "Frenk H.S" , salary : 900,increase:false,rise: false, id:3 },
          ]
       }
-      this.maxId = 4;
+      this.idMax = 4;
    }
    
    deleteItem = (id) => {
