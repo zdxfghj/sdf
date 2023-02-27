@@ -16,7 +16,8 @@ class App extends Component{
             {name: 'Alex F.D' , salary : 1200, increase:false,rise: false, id:1 },
             {name: "Johan Y.K" , salary : 600, increase:true,rise: true, id:2 },
             {name: "Frenk H.S" , salary : 900,increase:false,rise: false, id:3 },
-         ]
+         ],
+         term: '', filter: ''
       }
       this.idMax = 4;
    }
@@ -34,6 +35,15 @@ class App extends Component{
             data : data.filter(item => item.id !== id)
          }
       })
+   }
+
+   seachEmp = (items, term) =>{
+         if(term.length === 0){
+            return items;
+         }
+         return items.filter(item =>{
+             return item.name.indexOf(term) > -1
+         })
    }
 
    addItem = (name,salary) =>{
@@ -87,10 +97,26 @@ class App extends Component{
       }))
    }   
 
+   filterPost =(items,filter) =>{
+      switch(filter){
+         case 'rise':
+            return items.filter(item => item.rise);
+         case 'moreWhen1000':
+            return items.filter(item => item.salary>1000);
+         default:
+            return items;
+      }
+   }
+
+   onFilterSelect = (filter) =>{
+      this.setState({filter});
+   }
 
    render(){
+      const {data,term,filter} = this.state;
       const employeers = this.state.data.length;
       const increase = this.state.data.filter(item => item.increase).length;
+      const visibleData = this.filterPost(this.seachEmp(data,term),filter)
 
       return(
          <div className="app">
@@ -100,12 +126,15 @@ class App extends Component{
             />
    
             <div className='search-panel'>
-                  <SearchPanel/>
-                  <AppFilter/>
+                  <SearchPanel onUpdateSearch = {this.onUpdateSearch}/>
+                  <AppFilter 
+                     filter = {filter}
+                     onFilterSelect = {this.onFilterSelect}
+                     />
             </div>
    
             <EmployersList 
-               data = {this.state.data}
+               data = {visibleData}
                onDelete = {this.deleteItem}
                onToggleRise = {this.onToggleRise}
                onToggleIncrease = {this.onToggleIncrease}
